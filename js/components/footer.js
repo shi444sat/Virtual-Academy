@@ -28,7 +28,7 @@ class Footer {
                                 </div>
                             </div>
                             <p class="text-gray-400 mb-6">
-                                Excellence in education since 2005. We nurture future leaders through quality education and holistic development.
+                                Excellence in education since 2012. We nurture future leaders through quality education and holistic development.
                             </p>
                             <div class="flex space-x-4">
                                 <a href="${siteSettings?.socialLinks?.facebook || '#'}" class="text-gray-400 hover:text-white">
@@ -72,16 +72,16 @@ class Footer {
                                 <li class="flex items-start">
                                     <i class="fas fa-phone text-green-400 mt-1 mr-3"></i>
                                     <div>
-                                        <a href="tel:${siteSettings?.phone || '+916201999809'}" class="text-gray-400 hover:text-white block">
-                                            ${siteSettings?.phone || '+91 62019 99809'}
+                                        <a href="tel:${siteSettings?.phone || '+917545864977'}" class="text-gray-400 hover:text-white block">
+                                            ${siteSettings?.phone || '+91 7545864977'}
                                         </a>
                                         <p class="text-sm text-gray-500">Mon-Sat: 8AM-6PM</p>
                                     </div>
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-envelope text-purple-400 mt-1 mr-3"></i>
-                                    <a href="mailto:${siteSettings?.contactEmail || 'info@Virtual.academy'}" class="text-gray-400 hover:text-white">
-                                        ${siteSettings?.contactEmail || 'info@Virtual.academy'}
+                                    <a href="mailto:${siteSettings?.contactEmail || 'info@Virtualacademygroup.com'}" class="text-gray-400 hover:text-white">
+                                        ${siteSettings?.contactEmail || 'info@Virtualacademygroup.com'}
                                     </a>
                                 </li>
                             </ul>
@@ -93,7 +93,7 @@ class Footer {
                     <div class="border-t border-gray-700 mt-12 pt-8 text-center">
                         <div class="flex flex-col md:flex-row justify-between items-center">
                             <p class="text-gray-400">
-                                &copy; <span class="current-year">${currentYear}</span> ${siteSettings?.siteName || 'Virtual Academy'}. All rights reserved.
+                                &copy;  2014</span> ${siteSettings?.siteName || 'Virtual Academy'}. All rights reserved.
                             </p>
                             <div class="mt-4 md:mt-0">
                                 <a href="privacy.html" class="text-gray-400 hover:text-white mx-4">Privacy Policy</a>
