@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events & Activities | Virtual Academy</title>
+    <meta name="description" content="Upcoming events, workshops, and activities at our institution">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-50">
+    <div id="navbar"></div>
+    
+    <main class="min-h-screen">
+        <!-- Page Header -->
+        <section class="bg-gradient-to-r from-teal-600 to-cyan-700 text-white py-16">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Events & Activities</h1>
+                <p class="text-xl opacity-90">Celebrating learning beyond classrooms</p>
+            </div>
+        </section>
+
+        <!-- Breadcrumb -->
+        <div class="container mx-auto px-4 py-4">
+            <nav class="text-sm">
+                <a href="index.html" class="text-blue-600 hover:text-blue-800">Home</a>
+                <span class="mx-2 text-gray-500">/</span>
+                <span class="text-gray-700">Events</span>
+            </nav>
+        </div>
+
+        <!-- Event Filters -->
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-wrap gap-4 mb-8">
+                <button data-type="upcoming" class="event-filter active bg-teal-600 text-white px-6 py-2 rounded-lg">Upcoming Events</button>
+                <button data-type="past" class="event-filter bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Past Events</button>
+                <button data-type="workshop" class="event-filter bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Workshops</button>
+                <button data-type="seminar" class="event-filter bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Seminars</button>
+                <button data-type="cultural" class="event-filter bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Cultural</button>
+                <button data-type="sports" class="event-filter bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Sports</button>
+            </div>
+        </div>
+
+        <!-- Events Container -->
+        <section class="container mx-auto px-4 py-8">
+            <div id="events-loading" class="flex justify-center py-12">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-teal-500"></div>
+            </div>
+            
+            <div id="events-container" class="space-y-8">
+                <!-- Events will be loaded here -->
+            </div>
+
+            <!-- No Events Message -->
+            <div id="no-events" class="hidden text-center py-12">
+                <div class="text-gray-400 text-6xl mb-4">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-600 mb-2">No Events Scheduled</h3>
+                <p class="text-gray-500">Events will be announced here. Stay tuned!</p>
+            </div>
+        </section>
+
+        <!-- Calendar View -->
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">Event Calendar</h2>
+                <div class="bg-white rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
+                    <div class="grid grid-cols-7 gap-2 text-center mb-6">
+                        <div class="font-bold text-red-600">Sun</div>
+                        <div class="font-bold">Mon</div>
+                        <div class="font-bold">Tue</div>
+                        <div class="font-bold">Wed</div>
+                        <div class="font-bold">Thu</div>
+                        <div class="font-bold">Fri</div>
+                        <div class="font-bold text-red-600">Sat</div>
+                    </div>
+                    <div id="calendar" class="text-center text-gray-500">
+                        <p>Event calendar integration coming soon...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Registration Callout -->
+        <section class="py-16 bg-gradient-to-r from-blue-500 to-teal-500 text-white">
+            <div class="container mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold mb-6">Want to Host an Event With Us?</h2>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">We welcome collaborations for workshops, seminars, and educational events.</p>
+                <a href="contact.html" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-handshake mr-2"></i> Partner With Us
+                </a>
+            </div>
+        </section>
+    </main>
+    
+    <div id="footer"></div>
+    
+    <!-- Scripts -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script> -->
+    
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/components/navbar.js"></script>
+    <script type="module" src="js/components/footer.js"></script>
+    <script type="module" src="js/pages/events.js"></script>
+</body>
+</html>

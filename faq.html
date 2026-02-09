@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs | Virtual Academy</title>
+    <meta name="description" content="Frequently asked questions about admissions, courses, fees, and more">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-50">
+    <div id="navbar"></div>
+    
+    <main class="min-h-screen">
+        <!-- Page Header -->
+        <section class="bg-gradient-to-r from-violet-600 to-purple-700 text-white py-16">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h1>
+                <p class="text-xl opacity-90">Find answers to common questions</p>
+            </div>
+        </section>
+
+        <!-- Breadcrumb -->
+        <div class="container mx-auto px-4 py-4">
+            <nav class="text-sm">
+                <a href="index.html" class="text-blue-600 hover:text-blue-800">Home</a>
+                <span class="mx-2 text-gray-500">/</span>
+                <span class="text-gray-700">FAQ</span>
+            </nav>
+        </div>
+
+        <!-- FAQ Categories -->
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-wrap gap-4 mb-8">
+                <button data-category="all" class="faq-category active bg-violet-600 text-white px-6 py-2 rounded-lg">All FAQs</button>
+                <button data-category="admission" class="faq-category bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Admissions</button>
+                <button data-category="academic" class="faq-category bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Academic</button>
+                <button data-category="fee" class="faq-category bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Fees & Payment</button>
+                <button data-category="facility" class="faq-category bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Facilities</button>
+                <button data-category="examination" class="faq-category bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Examinations</button>
+                <button data-category="other" class="faq-category bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Other</button>
+            </div>
+
+            <!-- Search -->
+            <div class="mb-8">
+                <div class="relative max-w-md">
+                    <input type="text" id="search-faq" placeholder="Search FAQs..." 
+                           class="w-full p-4 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-violet-500 focus:border-violet-500">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQs Container -->
+        <section class="container mx-auto px-4 py-8">
+            <div id="faqs-loading" class="flex justify-center py-12">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-violet-500"></div>
+            </div>
+            
+            <div id="faqs-container" class="max-w-4xl mx-auto space-y-4">
+                <!-- FAQs will be loaded here -->
+            </div>
+
+            <!-- No FAQs Message -->
+            <div id="no-faqs" class="hidden text-center py-12">
+                <div class="text-gray-400 text-6xl mb-4">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-600 mb-2">No FAQs Available</h3>
+                <p class="text-gray-500">Frequently asked questions will be added soon.</p>
+            </div>
+        </section>
+
+        <!-- Still Have Questions -->
+        <section class="py-16 bg-gradient-to-r from-purple-50 to-violet-100">
+            <div class="container mx-auto px-4">
+                <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8 text-center">
+                    <div class="text-purple-600 text-5xl mb-6">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-4">Still Have Questions?</h2>
+                    <p class="text-xl text-gray-600 mb-8">Our team is ready to help you with any questions you may have.</p>
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <a href="contact.html" class="bg-purple-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-purple-700 transition">
+                            <i class="fas fa-envelope mr-2"></i> Contact Us
+                        </a>
+                        <a href="tel:+919876543210" class="bg-white border-2 border-purple-600 text-purple-600 px-8 py-3 rounded-lg font-bold text-lg hover:bg-purple-50 transition">
+                            <i class="fas fa-phone mr-2"></i> Call Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Links -->
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">Quick Links</h2>
+                <div class="grid md:grid-cols-4 gap-8">
+                    <a href="admissions.html" class="bg-white p-6 rounded-xl shadow text-center hover:shadow-lg transition">
+                        <div class="text-blue-600 text-3xl mb-4">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Admission Process</h3>
+                        <p class="text-sm text-gray-600 mt-2">Step-by-step guide</p>
+                    </a>
+                    <a href="courses.html" class="bg-white p-6 rounded-xl shadow text-center hover:shadow-lg transition">
+                        <div class="text-green-600 text-3xl mb-4">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Course Catalog</h3>
+                        <p class="text-sm text-gray-600 mt-2">Detailed course information</p>
+                    </a>
+                    <a href="contact.html" class="bg-white p-6 rounded-xl shadow text-center hover:shadow-lg transition">
+                        <div class="text-red-600 text-3xl mb-4">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Visit Campus</h3>
+                        <p class="text-sm text-gray-600 mt-2">Schedule a visit</p>
+                    </a>
+                    <a href="results.html" class="bg-white p-6 rounded-xl shadow text-center hover:shadow-lg transition">
+                        <div class="text-yellow-600 text-3xl mb-4">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3 class="font-bold text-lg">Our Results</h3>
+                        <p class="text-sm text-gray-600 mt-2">Student achievements</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="footer"></div>
+    
+    <!-- Scripts -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script> -->
+    
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/components/navbar.js"></script>
+    <script type="module" src="js/components/footer.js"></script>
+    <script type="module" src="js/pages/faq.js"></script>
+</body>
+</html>

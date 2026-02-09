@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notices & Announcements | Virtual Academy</title>
+    <meta name="description" content="Latest notices, announcements, and important updates">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-50">
+    <div id="navbar"></div>
+    
+    <main class="min-h-screen">
+        <!-- Page Header -->
+        <section class="bg-gradient-to-r from-red-600 to-orange-700 text-white py-16">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Notices & Announcements</h1>
+                <p class="text-xl opacity-90">Stay updated with important information</p>
+            </div>
+        </section>
+
+        <!-- Breadcrumb -->
+        <div class="container mx-auto px-4 py-4">
+            <nav class="text-sm">
+                <a href="index.html" class="text-blue-600 hover:text-blue-800">Home</a>
+                <span class="mx-2 text-gray-500">/</span>
+                <span class="text-gray-700">Notices</span>
+            </nav>
+        </div>
+
+        <!-- Filters -->
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-wrap gap-4 mb-8">
+                <button data-filter="all" class="filter-btn active bg-red-600 text-white px-6 py-2 rounded-lg">All Notices</button>
+                <button data-filter="important" class="filter-btn bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Important</button>
+                <button data-filter="academic" class="filter-btn bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Academic</button>
+                <button data-filter="examination" class="filter-btn bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Examination</button>
+                <button data-filter="holiday" class="filter-btn bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">Holiday</button>
+                <button data-filter="general" class="filter-btn bg-gray-200 px-6 py-2 rounded-lg hover:bg-gray-300">General</button>
+            </div>
+
+            <!-- Search Box -->
+            <div class="mb-8">
+                <div class="relative">
+                    <input type="text" id="search-notices" placeholder="Search notices..." 
+                           class="w-full p-4 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
+                    <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notices Container -->
+        <section class="container mx-auto px-4 py-8">
+            <div id="notices-loading" class="flex justify-center py-12">
+                <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-red-500"></div>
+            </div>
+            
+            <div id="notices-container" class="space-y-6">
+                <!-- Notices will be loaded here -->
+            </div>
+
+            <!-- No Notices Message -->
+            <div id="no-notices" class="hidden text-center py-12">
+                <div class="text-gray-400 text-6xl mb-4">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-600 mb-2">No Notices Available</h3>
+                <p class="text-gray-500">Check back later for updates and announcements.</p>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button id="load-more" class="bg-gray-200 text-gray-700 px-8 py-3 rounded-lg font-semibold hover:bg-gray-300 transition">
+                    <i class="fas fa-redo mr-2"></i> Load More Notices
+                </button>
+            </div>
+        </section>
+
+        <!-- Important Dates -->
+        <section class="py-16 bg-gray-100">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-12">Important Dates</h2>
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white rounded-xl shadow p-6">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between p-4 bg-red-50 rounded-lg">
+                                <div>
+                                    <h3 class="font-bold text-lg">Annual Day Celebration</h3>
+                                    <p class="text-gray-600">Cultural program and awards ceremony</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-red-600">15 Jan</div>
+                                    <div class="text-sm text-gray-500">2024</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+                                <div>
+                                    <h3 class="font-bold text-lg">Mid-Term Examinations</h3>
+                                    <p class="text-gray-600">For all classes</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-blue-600">20-30 Jan</div>
+                                    <div class="text-sm text-gray-500">2024</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-4 bg-green-50 rounded-lg">
+                                <div>
+                                    <h3 class="font-bold text-lg">Science Exhibition</h3>
+                                    <p class="text-gray-600">Innovation and projects display</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-green-600">5 Feb</div>
+                                    <div class="text-sm text-gray-500">2024</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="footer"></div>
+    
+    <!-- Scripts -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script> -->
+    
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/components/navbar.js"></script>
+    <script type="module" src="js/components/footer.js"></script>
+    <script type="module" src="js/pages/notices.js"></script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Virtual Academy</title>
+    <meta name="description" content="Get in touch with us for admissions, inquiries, and information">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+</head>
+<body class="font-sans bg-gray-50">
+    <div id="navbar"></div>
+    
+    <main class="min-h-screen">
+        <!-- Page Header -->
+        <section class="bg-gradient-to-r from-indigo-600 to-blue-700 text-white py-16">
+            <div class="container mx-auto px-4">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
+                <p class="text-xl opacity-90">We're here to help you</p>
+            </div>
+        </section>
+
+        <!-- Breadcrumb -->
+        <div class="container mx-auto px-4 py-4">
+            <nav class="text-sm">
+                <a href="index.html" class="text-blue-600 hover:text-blue-800">Home</a>
+                <span class="mx-2 text-gray-500">/</span>
+                <span class="text-gray-700">Contact</span>
+            </nav>
+        </div>
+
+        <!-- Contact Information -->
+        <section class="container mx-auto px-4 py-12">
+            <div class="grid lg:grid-cols-3 gap-12">
+                <!-- Contact Details -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-xl shadow-lg p-8 sticky top-24">
+                        <h2 class="text-2xl font-bold mb-8">Get In Touch</h2>
+                        
+                        <div class="space-y-8">
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-map-marker-alt text-blue-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Visit Us</h3>
+                                    <p class="text-gray-600">Rambagh<br>Purnea, Bihar<br>, India</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-phone text-green-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Call Us</h3>
+                                    <p class="text-gray-600">
+                                        <a href="tel:+916201999809" class="hover:text-blue-600">+91 6201999809 </a><br>
+                                        <a href="tel:+9120199980"hover:text-blue-600">+91 080 1234 567</a>
+                                    </p>
+                                    <p class="text-sm text-gray-500 mt-1">Mon-Sat: 8:00 AM - 6:00 PM</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-4">
+                                    <i class="fas fa-envelope text-purple-600 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-lg mb-1">Email Us</h3>
+                                    <p class="text-gray-600">
+                                        <a href="mailto:info@Virtual.academy" class="hover:text-blue-600">info@Virtual.academy</a><br>
+                                        <a href="mailto:admissions@Virtual.academy" class="hover:text-blue-600">admissions@Virtual.academy</a>
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <div class="pt-6 border-t">
+                                <h3 class="font-bold text-lg mb-4">Follow Us</h3>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="w-10 h-10 bg-blue-600 text-white rounded-full flex items-center justify-center hover:bg-blue-700">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 bg-blue-400 text-white rounded-full flex items-center justify-center hover:bg-blue-500">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 bg-pink-600 text-white rounded-full flex items-center justify-center hover:bg-pink-700">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 bg-blue-700 text-white rounded-full flex items-center justify-center hover:bg-blue-800">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <a href="#" class="w-10 h-10 bg-red-600 text-white rounded-full flex items-center justify-center hover:bg-red-700">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form & Map -->
+                <div class="lg:col-span-2 space-y-12">
+                    <!-- Contact Form -->
+                    <div class="bg-white rounded-xl shadow-lg p-8">
+                        <h2 class="text-2xl font-bold mb-6">Send Us a Message</h2>
+                        
+                        <form id="contact-form">
+                            <div class="grid md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Your Name *</label>
+                                    <input type="text" name="name" required 
+                                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                                    <input type="email" name="email" required 
+                                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                                <input type="tel" name="phone" 
+                                       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
+                                <select name="subject" required 
+                                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Select a subject...</option>
+                                    <option value="admission">Admission Inquiry</option>
+                                    <option value="course">Course Information</option>
+                                    <option value="fee">Fee Structure</option>
+                                    <option value="faculty">Faculty Related</option>
+                                    <option value="feedback">Feedback/Suggestion</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Your Message *</label>
+                                <textarea name="message" rows="5" required 
+                                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                            </div>
+                            
+                            <div id="contact-message" class="hidden p-4 rounded-lg mb-6"></div>
+                            
+                            <div class="text-right">
+                                <button type="submit" 
+                                        class="bg-blue-600 text-white px-10 py-3 rounded-lg font-bold text-lg hover:bg-blue-700 transition">
+                                    <i class="fas fa-paper-plane mr-2"></i> Send Message
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Map -->
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <div class="h-96 bg-gray-300 flex items-center justify-center">
+                            <div class="text-center">
+                                <i class="fas fa-map-marked-alt text-gray-400 text-6xl mb-4"></i>
+                                <p class="text-gray-600">Google Maps Integration</p>
+                                <p class="text-sm text-gray-500">Add your Google Maps embed code here</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="font-bold text-lg mb-2">How to Reach Us</h3>
+                            <p class="text-gray-600">Located in the heart of the city with excellent public transport connectivity.</p>
+                        </div>
+                    </div>
+
+                    <!-- Office Hours -->
+                    <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl shadow-lg p-8">
+                        <h2 class="text-2xl font-bold mb-6">Office Hours</h2>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <h3 class="font-bold text-lg mb-4">Administrative Office</h3>
+                                <div class="space-y-2">
+                                    <p><span class="font-semibold">Monday - Friday:</span> 8:00 AM - 6:00 PM</p>
+                                    <p><span class="font-semibold">Saturday:</span> 8:00 AM - 2:00 PM</p>
+                                    <p><span class="font-semibold">Sunday:</span> Closed</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-4">Visiting Hours</h3>
+                                <div class="space-y-2">
+                                    <p>For campus visits and counseling sessions</p>
+                                    <p><span class="font-semibold">By appointment only</span></p>
+                                    <p>Please call or email to schedule</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Emergency Contact -->
+        <section class="py-16 bg-red-50">
+            <div class="container mx-auto px-4 text-center">
+                <div class="max-w-3xl mx-auto">
+                    <div class="text-red-600 text-4xl mb-4">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold mb-4">Emergency Contact</h2>
+                    <p class="text-xl mb-6">For urgent matters outside office hours</p>
+                    <a href="tel:+919876543210" class="inline-block bg-red-600 text-white px-8 py-3 rounded-lg font-bold text-lg hover:bg-red-700 transition">
+                        <i class="fas fa-phone-alt mr-2"></i> Emergency: +91 6201999809
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <div id="footer"></div>
+    
+    <!-- Scripts -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script> -->
+    
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/components/navbar.js"></script>
+    <script type="module" src="js/components/footer.js"></script>
+    <script type="module" src="js/pages/contact.js"></script>
+</body>
+</html>
