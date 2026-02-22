@@ -50,7 +50,7 @@
 /* Notice Section → Blue */
 #notices {
   background: #0f2744;   /* same deep blue as your theme */
-  color: #ffffff;
+  
 }
 
 /* Make text inside notice white */
@@ -1683,4 +1683,5 @@
 .dev-credit a:hover {
   color: #ffffff;
   text-decoration: underline;
+
 }
