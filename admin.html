@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Academy — Admin Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="adsty.css">
+
+  <script type="module">
+    /* ==============================
+       FIREBASE IMPORTS
+    ============================== */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      deleteDoc,
+      doc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    import {
+      getStorage,
+      ref as sRef,
+      uploadBytes,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    /* ==============================
+       FIREBASE CONFIG
+    ============================== */
+    const firebaseConfig = {
+      apiKey: "AIzaSyAdaVlSRkC5a7AVH_D2HccyxJxxUXwg6So",
+      authDomain: "virtualv2.firebaseapp.com",
+      projectId: "virtualv2",
+      storageBucket: "virtualv2.firebasestorage.app",
+      messagingSenderId: "212875907952",
+      appId: "1:212875907952:web:9f2e7ce61dc9a19bacf5b5",
+      measurementId: "G-KKR4JBLH3Q"
+    };
+
+    /* ==============================
+       INITIALIZE
+    ============================== */
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+    const auth = getAuth(app);
+
+    /* ==============================
+       AUTH
+    ============================== */
+    onAuthStateChanged(auth, user => setAdmin(!!user));
+
+    window.fbLogin = async (email, pwd) => {
+      await signInWithEmailAndPassword(auth, email, pwd);
+    };
+
+    window.fbLogout = async () => {
+      await signOut(auth);
+    };
+
+    /* ==============================
+       NOTICES
+    ============================== */
+    const noticesRef = collection(db, "notices");
+
+    window.subscribeNotices = (cb) => {
+      const q = query(noticesRef, orderBy("createdAt", "desc"));
+      return onSnapshot(q, snap => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        cb(list);
+      });
+    };
+
+    window.addNotice = async (data) => {
+      await addDoc(noticesRef, {
+        ...data,
+        createdAt: serverTimestamp()
+      });
+    };
+
+    window.deleteNotice = async (id) => {
+      await deleteDoc(doc(db, "notices", id));
+    };
+
+    /* ==============================
+       EVENTS
+    ============================== */
+    const eventsRef = collection(db, "events");
+
+    window.subscribeEvents = (cb) => {
+      const q = query(eventsRef, orderBy("date", "asc"));
+      return onSnapshot(q, snap => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        cb(list);
+      });
+    };
+
+    window.addEvent = async (data) => {
+      await addDoc(eventsRef, {
+        ...data,
+        createdAt: serverTimestamp()
+      });
+    };
+
+    window.deleteEvent = async (id) => {
+      await deleteDoc(doc(db, "events", id));
+    };
+
+    /* ==============================
+       GALLERY
+    ============================== */
+    const galleryRef = collection(db, "gallery");
+
+    window.subscribeGallery = (cb) => {
+      const q = query(galleryRef, orderBy("createdAt", "desc"));
+      return onSnapshot(q, snap => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        cb(list);
+      });
+    };
+
+    window.addGalleryItem = async (data) => {
+      await addDoc(galleryRef, {
+        ...data,
+        createdAt: serverTimestamp()
+      });
+    };
+
+    window.deleteGalleryItem = async (id) => {
+      await deleteDoc(doc(db, "gallery", id));
+    };
+
+    window.uploadImage = async (file) => {
+      const storageRef = sRef(storage, `gallery/${Date.now()}_${file.name}`);
+      await uploadBytes(storageRef, file);
+      return await getDownloadURL(storageRef);
+    };
+
+    /* ==============================
+       STUDENTS
+    ============================== */
+    const studentsRef = collection(db, "students");
+
+    window.subscribeStudents = (cb) => {
+      const q = query(studentsRef, orderBy("createdAt", "desc"));
+      return onSnapshot(q, snap => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        cb(list);
+      });
+    };
+
+    window.addStudent = async (data) => {
+      await addDoc(studentsRef, {
+        ...data,
+        createdAt: serverTimestamp()
+      });
+    };
+
+    window.deleteStudent = async (id) => {
+      await deleteDoc(doc(db, "students", id));
+    };
+
+    /* ==============================
+       COURSES
+    ============================== */
+    const coursesRef = collection(db, "courses");
+
+    window.subscribeCourses = (cb) => {
+      const q = query(coursesRef, orderBy("createdAt", "desc"));
+      return onSnapshot(q, snap => {
+        const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        cb(list);
+      });
+    };
+
+    window.addCourse = async (data) => {
+      await addDoc(coursesRef, {
+        ...data,
+        createdAt: serverTimestamp()
+      });
+    };
+
+    window.deleteCourse = async (id) => {
+      await deleteDoc(doc(db, "courses", id));
+    };
+
+    /* ==============================
+       INIT SUBSCRIPTIONS
+    ============================== */
+ onAuthStateChanged(auth, user => {
+  if (user) {
+    setAdmin(true);
+    window.subscribeNotices(renderNotices);
+    window.subscribeEvents(renderEvents);
+    window.subscribeGallery(renderGallery);
+    window.subscribeStudents(renderStudents);
+    window.subscribeCourses(renderCoursesAdmin);
+  } else {
+    setAdmin(false);
+  }
+});
+  </script>
+  </script>
+</head>
+<body>
+ <!-- SIDEBAR -->
+ <aside class="sidebar" id="sidebar">
+  <!-- <button class="sidebar-close" onclick="closeSidebar()">✕</button> -->
+    <div class="sl">
+      <h1>Virtual<br>Academy</h1>
+      <span>Admin Portal</span>
+      <a href="index.html" class="sl-back">← Back to School Website</a>
+    </div>
+    <nav class="sn">
+      <div class="ns">Overview</div>
+      <div class="ni active" data-page="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" />
+          <rect x="14" y="3" width="7" height="7" />
+          <rect x="14" y="14" width="7" height="7" />
+          <rect x="3" y="14" width="7" height="7" />
+        </svg>Dashboard
+      </div>
+      <div class="ns">Content</div>
+      <div class="ni" data-page="notices">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+        </svg>Notices
+      </div>
+      <div class="ni" data-page="events">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>Events
+      </div>
+      <div class="ni" data-page="gallery">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21 15 16 10 5 21" />
+        </svg>Gallery
+      </div>
+      <div class="ni" data-page="courses">
+        📘 Courses
+      </div>
+      <div class="ns">Records</div>
+      <div class="ni" data-page="students">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>Students
+      </div>
+    </nav>
+    <div class="sf">
+      <div class="sa" id="sidebarUser">
+        <div class="sav">G</div>
+        <div>
+          <div style="color:#fff;font-size:.78rem;font-weight:500">Guest</div>
+          <div style="font-size:.68rem">View Only</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:13px">
+       <button class="ham" onclick="openSidebar()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+        <div class="topbar-title" id="pageTitle">Dashboard</div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-o btn-sm" id="loginBtn" onclick="openLogin()">Admin Login</button>
+        <button class="btn btn-d btn-sm" id="logoutBtn" style="display:none" onclick="fbLogout()">Logout</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="sg">
+          <div class="sc">
+            <div>
+              <div class="sc-lbl">Active Students</div>
+              <div class="sc-val" id="statS">—</div>
+            </div>
+            <div class="sc-ico ic-g">🎓</div>
+          </div>
+          <div class="sc">
+            <div>
+              <div class="sc-lbl">Notices Posted</div>
+              <div class="sc-val" id="statN">—</div>
+            </div>
+            <div class="sc-ico ic-t">📌</div>
+          </div>
+          <div class="sc">
+            <div>
+              <div class="sc-lbl">Upcoming Events</div>
+              <div class="sc-val" id="statE">—</div>
+            </div>
+            <div class="sc-ico ic-s">📅</div>
+          </div>
+          <div class="sc">
+            <div>
+              <div class="sc-lbl">Gallery Photos</div>
+              <div class="sc-val" id="statG">—</div>
+            </div>
+            <div class="sc-ico ic-r">🖼️</div>
+          </div>
+        </div>
+        <div class="dg">
+          <div class="card">
+            <div class="ch">📌 Latest Notices</div>
+            <div class="cb">
+              <div class="ql" id="dashN"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="ch">📅 Upcoming Events</div>
+            <div class="cb">
+              <div class="ql" id="dashE"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTICES -->
+      <div class="page" id="page-notices">
+        <div class="sh2">
+          <div>
+            <div class="sh2-t">Notice Board</div>
+            <div class="sh2-sub">Post and manage school announcements</div>
+          </div>
+          <button class="btn btn-p admin-only" style="display:none" onclick="openModal('noticeModal')">+ Add
+            Notice</button>
+        </div>
+        <div class="ng" id="noticeGrid"></div>
+      </div>
+
+      <!-- EVENTS -->
+      <div class="page" id="page-events">
+        <div class="sh2">
+          <div>
+            <div class="sh2-t">Events</div>
+            <div class="sh2-sub">Manage school events and programmes</div>
+          </div>
+          <button class="btn btn-p admin-only" style="display:none" onclick="openModal('eventModal')">+ Add
+            Event</button>
+        </div>
+        <div class="el" id="eventsList"></div>
+      </div>
+
+      <!-- GALLERY -->
+      <div class="page" id="page-gallery">
+        <div class="sh2">
+          <div>
+            <div class="sh2-t">Gallery</div>
+            <div class="sh2-sub">Photo management</div>
+          </div>
+          <button class="btn btn-p admin-only" style="display:none" onclick="openModal('galleryModal')">+ Upload
+            Photo</button>
+        </div>
+        <div class="gfilters">
+          <button class="fc active" data-filter="all">All</button>
+          <button class="fc" data-filter="academics">Academics</button>
+          <button class="fc" data-filter="sports">Sports</button>
+          <button class="fc" data-filter="events">Events</button>
+          <button class="fc" data-filter="arts">Arts</button>
+        </div>
+        <div class="gg" id="galleryGrid"></div>
+      </div>
+
+      <!-- STUDENTS -->
+      <div class="page" id="page-students">
+        <div class="sh2">
+          <div>
+            <div class="sh2-t">Students</div>
+            <div class="sh2-sub">Student directory and records</div>
+          </div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="search-bar">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+              <input type="text" id="sSearch" placeholder="Search students…" oninput="filterStudents()">
+            </div>
+            <button class="btn btn-p btn-sm admin-only" style="display:none" onclick="openModal('studentModal')">+ Add
+              Student</button>
+          </div>
+        </div>
+        <div class="tw">
+          <table>
+            <thead>
+              <tr>
+                <th>Roll</th>
+                <th>Name</th>
+                <th>Grade</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th class="admin-only" style="display:none">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="studentsTable">
+              <tr>
+                <td colspan="7" style="text-align:center;color:var(--ink-muted);padding:22px">Loading…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    
+    <!-- COURSES -->
+<!-- COURSES -->
+<div class="page" id="page-courses">
+  <div class="sh2">
+    <div>
+      <div class="sh2-t">Courses</div>
+      <div class="sh2-sub">Manage curriculum and syllabus</div>
+    </div>
+
+    <button class="btn btn-p admin-only"
+      style="display:none"
+      onclick="openModal('courseModal')">
+      + Add Course
+    </button>
+  </div>
+
+  <div class="courses-grid" id="coursesAdminGrid"></div>
+</div>
+  </main>
+  <!-- COURSES -->
+  
+  <!-- NOTICE MODAL -->
+  <div class="mb" id="noticeModal">
+    <div class="modal">
+      <div class="mh">
+        <h2>Add Notice</h2><button class="btn btn-o btn-sm" onclick="closeModal('noticeModal')">✕</button>
+      </div>
+      <div class="mbody">
+        <div class="fg"><label>Title *</label><input type="text" id="nTitle" placeholder="Notice title…"></div>
+        <div class="fr">
+          <div class="fg"><label>Category</label><select id="nCat">
+              <option value="general">General</option>
+              <option value="exam">Exam</option>
+              <option value="meeting">Meeting</option>
+              <option value="event">Event</option>
+              <option value="finance">Finance</option>
+            </select></div>
+          <div class="fg"><label>Date *</label><input type="date" id="nDate"></div>
+        </div>
+        <div class="fg"><label>Body *</label><textarea id="nBody" placeholder="Notice content…"></textarea></div>
+      </div>
+      <div class="mf"><button class="btn btn-o" onclick="closeModal('noticeModal')">Cancel</button><button
+          class="btn btn-p" onclick="submitNotice()">Post Notice</button></div>
+    </div>
+  </div>
+
+  <!-- EVENT MODAL -->
+  <div class="mb" id="eventModal">
+    <div class="modal">
+      <div class="mh">
+        <h2>Add Event</h2><button class="btn btn-o btn-sm" onclick="closeModal('eventModal')">✕</button>
+      </div>
+      <div class="mbody">
+        <div class="fg"><label>Event Title *</label><input type="text" id="eTitle" placeholder="e.g. Annual Sports Day">
+        </div>
+        <div class="fr">
+          <div class="fg"><label>Date *</label><input type="date" id="eDate"></div>
+          <div class="fg"><label>Time</label><input type="text" id="eTime" placeholder="e.g. 9:00 AM"></div>
+        </div>
+        <div class="fg"><label>Venue</label><input type="text" id="eVenue" placeholder="e.g. Main Auditorium"></div>
+        <div class="fg"><label>Description</label><textarea id="eDesc" placeholder="Event details…"></textarea></div>
+      </div>
+      <div class="mf"><button class="btn btn-o" onclick="closeModal('eventModal')">Cancel</button><button
+          class="btn btn-p" onclick="submitEvent()">Add Event</button></div>
+    </div>
+  </div>
+
+  <!-- GALLERY MODAL -->
+  <div class="mb" id="galleryModal">
+    <div class="modal">
+      <div class="mh">
+        <h2>Upload Photo</h2><button class="btn btn-o btn-sm" onclick="closeModal('galleryModal')">✕</button>
+      </div>
+      <div class="mbody">
+        <div class="upload-area" onclick="document.getElementById('gFile').click()">
+          <div style="font-size:1.8rem">📷</div>
+          <div style="font-weight:600;margin-top:7px">Click to select photo</div>
+          <p>JPG, PNG or WEBP up to 10MB</p>
+          <input type="file" id="gFile" accept="image/*" onchange="previewG(event)">
+        </div>
+        <img id="gPreview"
+          style="width:100%;border-radius:8px;margin-top:10px;display:none;max-height:160px;object-fit:cover">
+        <div class="fr" style="margin-top:14px">
+          <div class="fg"><label>Title *</label><input type="text" id="gTitle" placeholder="Photo title…"></div>
+          <div class="fg"><label>Category</label><select id="gCat">
+              <option value="academics">Academics</option>
+              <option value="sports">Sports</option>
+              <option value="events">Events</option>
+              <option value="arts">Arts</option>
+            </select></div>
+        </div>
+      </div>
+      <div class="mf"><button class="btn btn-o" onclick="closeModal('galleryModal')">Cancel</button><button
+          class="btn btn-p" onclick="submitGallery()">Upload</button></div>
+    </div>
+  </div>
+
+  <!-- STUDENT MODAL -->
+  <div class="mb" id="studentModal">
+    <div class="modal">
+      <div class="mh">
+        <h2>Add Student</h2><button class="btn btn-o btn-sm" onclick="closeModal('studentModal')">✕</button>
+      </div>
+      <div class="mbody">
+        <div class="fr">
+          <div class="fg"><label>Full Name *</label><input type="text" id="sName" placeholder="Student name…"></div>
+          <div class="fg"><label>Roll No. *</label><input type="text" id="sRoll" placeholder="e.g. 007"></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label>Grade *</label><input type="text" id="sGrade" placeholder="e.g. 10-A"></div>
+          <div class="fg"><label>Status</label><select id="sStatus">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label>Email</label><input type="email" id="sEmail" placeholder="student@school.com"></div>
+          <div class="fg"><label>Phone</label><input type="tel" id="sPhone" placeholder="Contact number"></div>
+        </div>
+      </div>
+      <div class="mf"><button class="btn btn-o" onclick="closeModal('studentModal')">Cancel</button><button
+          class="btn btn-p" onclick="submitStudent()">Enrol Student</button></div>
+    </div>
+  </div>
+
+  <!-- LOGIN OVERLAY -->
+  <div class="lo" id="loginOverlay">
+    <div class="lbox">
+      <h2>Admin Login</h2>
+      <p>Sign in to manage school content</p>
+      <div class="fg"><label>Email</label><input type="email" id="lEmail" value="admin@school.com"></div>
+      <div class="fg"><label>Password</label><input type="password" id="lPwd" value="demo123"></div>
+      <div id="lErr" style="color:var(--rose);font-size:.78rem;margin-bottom:10px;display:none"></div>
+      <div style="display:flex;gap:9px;justify-content:flex-end;margin-top:6px">
+        <button class="btn btn-o" onclick="closeLogin()">Cancel</button>
+        <button class="btn btn-p" onclick="doLogin()">Sign In</button>
+      </div>
+      <p style="margin-top:14px;font-size:.72rem;color:var(--ink-muted)">In demo mode, any credentials work.</p>
+    </div>
+  </div>
+  <div class="mb" id="courseModal">
+    <div class="modal">
+      <div class="mh">
+        <h2>Add Course</h2>
+        <button class="btn btn-o btn-sm" onclick="closeModal('courseModal')">✕</button>
+      </div>
+      <div class="mbody">
+        <div class="fg"><label>Course Title *</label><input type="text" id="cTitle"></div>
+        <div class="fg"><label>Grade *</label><input type="text" id="cGrade"></div>
+        <div class="fg"><label>Description *</label><textarea id="cDesc"></textarea></div>
+        <div class="fg"><label>Subjects *</label><textarea id="cSubjects"></textarea></div>
+        <div class="fg"><label>Syllabus *</label><textarea id="cSyllabus"></textarea></div>
+      </div>
+      <div class="mf">
+        <button class="btn btn-o" onclick="closeModal('courseModal')">Cancel</button>
+        <button class="btn btn-p" onclick="submitCourse()">Save</button>
+      </div>
+    </div>
+  </div>
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLb()">
+    <button class="lb-close">✕ Close</button>
+    <img id="lbImg" src="" alt="">
+  </div>
+
+  <script>
+    let isAdmin = false, allStudents = [], allGallery = [], gFilter = 'all';
+    const ptitles = { dashboard: 'Dashboard', notices: 'Notice Board', events: 'Events', gallery: 'Gallery', students: 'Students' };
+
+    function navigate(p) {
+      document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.ni').forEach(x => x.classList.remove('active'));
+      document.getElementById('page-' + p).classList.add('active');
+      document.querySelector(`[data-page="${p}"]`).classList.add('active');
+      document.getElementById('pageTitle').textContent = ptitles[p];
+    }
+document.querySelectorAll('.ni').forEach(i => {
+  i.addEventListener('click', () => {
+    navigate(i.dataset.page);
+    if (window.innerWidth < 992) {
+      closeSidebar();
+    }
+  });
+});
+    function setAdmin(v) {
+      isAdmin = v;
+      document.querySelectorAll('.admin-only').forEach(el => {
+        el.style.display = v ? (el.tagName === 'BUTTON' ? 'inline-flex' : 'table-cell') : 'none';
+      });
+      document.getElementById('loginBtn').style.display = v ? 'none' : 'inline-flex';
+      document.getElementById('logoutBtn').style.display = v ? 'inline-flex' : 'none';
+      const u = document.getElementById('sidebarUser');
+      u.innerHTML = v
+        ? `<div class="sav">A</div><div><div style="color:#fff;font-size:.78rem;font-weight:500">Administrator</div><div style="font-size:.67rem;color:var(--gold)">Full Access</div></div>`
+        : `<div class="sav">G</div><div><div style="color:#fff;font-size:.78rem;font-weight:500">Guest</div><div style="font-size:.67rem">View Only</div></div>`;
+      renderStudents(allStudents);
+    }
+
+    function openLogin() { document.getElementById('loginOverlay').classList.add('open') }
+    function closeLogin() { document.getElementById('loginOverlay').classList.remove('open') }
+    async function doLogin() {
+      const email = document.getElementById('lEmail').value, pwd = document.getElementById('lPwd').value;
+      const err = document.getElementById('lErr'); err.style.display = 'none';
+      try { await window.fbLogin(email, pwd); closeLogin(); }
+      catch (e) { err.textContent = e.message || 'Login failed'; err.style.display = ''; }
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('open') }
+    function closeModal(id) { document.getElementById(id).classList.remove('open') }
+    document.querySelectorAll('.mb').forEach(b => b.addEventListener('click', e => { if (e.target === b) b.classList.remove('open') }));
+
+    // NOTICES
+    function renderNotices(list) {
+      document.getElementById('statN').textContent = list.length;
+      document.getElementById('dashN').innerHTML = list.slice(0, 4).map(n => `
+    <div class="qi"><div class="qdot" style="background:${n.category === 'exam' ? '#e67e22' : n.category === 'finance' ? 'var(--rose)' : n.category === 'meeting' ? 'var(--teal)' : 'var(--gold)'}"></div>
+    <div><div class="qit">${n.title}</div><div class="qis">${n.category || 'general'} · ${n.date}</div></div></div>`).join('');
+      const grid = document.getElementById('noticeGrid');
+      if (!list.length) { grid.innerHTML = '<div style="color:var(--ink-muted)">No notices yet.</div>'; return; }
+      grid.innerHTML = list.map(n => `
+    <div class="nc ${n.category || 'general'}">
+      <span class="ncat ${n.category || 'general'}">${n.category || 'general'}</span>
+      <div class="nt">${n.title}</div>
+      <div class="nb">${n.body}</div>
+      <div class="nd">📅 ${n.date}</div>
+      ${isAdmin ? `<button class="btn btn-d btn-sm ndel" onclick="window.deleteNotice('${n.id}')">Delete</button>` : ''}
+    </div>`).join('');
+    }
+    async function submitNotice() {
+      const title = document.getElementById('nTitle').value.trim(), body = document.getElementById('nBody').value.trim(), date = document.getElementById('nDate').value, category = document.getElementById('nCat').value;
+      if (!title || !body || !date) { alert('Fill all required fields.'); return; }
+      await window.addNotice({ title, body, date, category });
+      closeModal('noticeModal');
+      ['nTitle', 'nBody', 'nDate'].forEach(i => document.getElementById(i).value = '');
+    }
+
+    // EVENTS
+    function renderEvents(list) {
+      document.getElementById('statE').textContent = list.length;
+      document.getElementById('dashE').innerHTML = list.slice(0, 4).map(ev => `
+    <div class="qi"><div class="qdot" style="background:var(--sky)"></div>
+    <div><div class="qit">${ev.title}</div><div class="qis">${ev.date}${ev.venue ? ' · ' + ev.venue : ''}</div></div></div>`).join('');
+      const c = document.getElementById('eventsList');
+      if (!list.length) { c.innerHTML = '<div style="color:var(--ink-muted)">No events scheduled.</div>'; return; }
+      c.innerHTML = list.map(ev => {
+        const d = ev.date ? new Date(ev.date + 'T00:00:00') : new Date();
+        return `<div class="ei">
+      <div class="edb"><div class="edd">${d.getDate()}</div><div class="edm">${d.toLocaleString('en', { month: 'short' }).toUpperCase()}</div></div>
+      <div class="einfo">
+        <div class="etitle">${ev.title}</div>
+        <div class="emeta">${ev.time ? `<span>🕐 ${ev.time}</span>` : ''}${ev.venue ? `<span>📍 ${ev.venue}</span>` : ''}</div>
+        ${ev.description ? `<div class="edesc">${ev.description}</div>` : ''}
+      </div>
+      ${isAdmin ? `<button class="btn btn-d btn-sm edel" onclick="window.deleteEvent('${ev.id}')">Delete</button>` : ''}
+    </div>`;
+      }).join('');
+    }
+    async function submitEvent() {
+      const title = document.getElementById('eTitle').value.trim(), date = document.getElementById('eDate').value;
+      const time = document.getElementById('eTime').value.trim(), venue = document.getElementById('eVenue').value.trim();
+      const description = document.getElementById('eDesc').value.trim();
+      if (!title || !date) { alert('Fill required fields.'); return; }
+      await window.addEvent({ title, date, time, venue, description });
+      closeModal('eventModal');
+      ['eTitle', 'eDate', 'eTime', 'eVenue', 'eDesc'].forEach(i => document.getElementById(i).value = '');
+    }
+
+    // GALLERY
+    document.querySelectorAll('.fc').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.fc').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active'); gFilter = chip.dataset.filter; renderGallery(allGallery);
+      });
+    });
+    function renderGallery(list) {
+      allGallery = list; document.getElementById('statG').textContent = list.length;
+      const filtered = gFilter === 'all' ? list : list.filter(g => g.category === gFilter);
+      const g = document.getElementById('galleryGrid');
+      if (!filtered.length) { g.innerHTML = '<div style="color:var(--ink-muted)">No photos in this category.</div>'; return; }
+      g.innerHTML = filtered.map(img => `
+    <div class="gi" onclick="openLb('${img.url}')">
+      <img src="${img.url}" alt="${img.title}" loading="lazy">
+      <div class="gov"><div class="got">${img.title}</div><div class="goc">${img.category}</div></div>
+      ${isAdmin ? `<button class="gdel" onclick="event.stopPropagation();window.deleteGalleryItem('${img.id}')">✕</button>` : ''}
+    </div>`).join('');
+    }
+    function previewG(e) {
+      const f = e.target.files[0]; if (!f) return;
+      const p = document.getElementById('gPreview'); p.src = URL.createObjectURL(f); p.style.display = '';
+    }
+    async function submitGallery() {
+      const file = document.getElementById('gFile').files[0], title = document.getElementById('gTitle').value.trim(), category = document.getElementById('gCat').value;
+      if (!title) { alert('Enter a title.'); return; } if (!file) { alert('Select an image.'); return; }
+      const url = await window.uploadImage(file);
+      await window.addGalleryItem({ title, category, url });
+      closeModal('galleryModal');
+      document.getElementById('gTitle').value = ''; document.getElementById('gFile').value = '';
+      document.getElementById('gPreview').style.display = 'none';
+    }
+
+    // STUDENTS
+    function renderStudents(list) {
+      allStudents = list;
+      document.getElementById('statS').textContent = list.filter(s => s.status === 'active').length;
+      filterStudents();
+    }
+    function filterStudents() {
+      const q = (document.getElementById('sSearch')?.value || '').toLowerCase();
+      const f = q ? allStudents.filter(s => s.name?.toLowerCase().includes(q) || s.grade?.toLowerCase().includes(q) || s.roll?.includes(q)) : allStudents;
+      const tbody = document.getElementById('studentsTable');
+      if (!f.length) { tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--ink-muted);padding:20px">No students found.</td></tr>`; return; }
+      tbody.innerHTML = f.map(s => `<tr>
+    <td style="font-family:'DM Mono';font-size:.8rem">${s.roll}</td>
+    <td style="font-weight:500">${s.name}</td>
+    <td><span style="background:var(--cream-dk);padding:3px 8px;border-radius:5px;font-size:.78rem">${s.grade}</span></td>
+    <td style="color:var(--ink-muted)">${s.email || '—'}</td>
+    <td style="color:var(--ink-muted)">${s.phone || '—'}</td>
+    <td><span class="badge ${s.status === 'active' ? 'ba' : 'bi'}">${s.status}</span></td>
+    ${isAdmin ? `<td><button class="btn btn-d btn-sm" onclick="window.deleteStudent('${s.id}')">Remove</button></td>` : '<td style="display:none"></td>'}
+  </tr>`).join('');
+    }
+    async function submitStudent() {
+      const name = document.getElementById('sName').value.trim(), roll = document.getElementById('sRoll').value.trim(), grade = document.getElementById('sGrade').value.trim();
+      const status = document.getElementById('sStatus').value, email = document.getElementById('sEmail').value.trim(), phone = document.getElementById('sPhone').value.trim();
+      if (!name || !roll || !grade) { alert('Fill required fields.'); return; }
+      await window.addStudent({ name, roll, grade, status, email, phone });
+      closeModal('studentModal');
+      ['sName', 'sRoll', 'sGrade', 'sEmail', 'sPhone'].forEach(i => document.getElementById(i).value = '');
+    }
+
+    // LIGHTBOX
+    function openLb(url) { document.getElementById('lbImg').src = url; document.getElementById('lightbox').classList.add('open') }
+    function closeLb() { document.getElementById('lightbox').classList.remove('open') }
+
+function renderCoursesAdmin(list){
+  const grid = document.getElementById('coursesAdminGrid');
+  if(!grid) return;
+
+  if(!list.length){
+    grid.innerHTML = `
+      <div class="empty-state">
+        📘 No courses added yet
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = list.map(c => `
+    <div class="course-card">
+      <div class="course-head">
+        <h3>${c.title}</h3>
+        <span class="course-grade">Grade ${c.grade}</span>
+      </div>
+
+      <p class="course-desc">${c.description}</p>
+
+      <div class="course-meta">
+        <div>
+          <strong>Subjects</strong>
+          <p>${c.subjects}</p>
+        </div>
+        <div>
+          <strong>Syllabus</strong>
+          <p>${c.syllabus}</p>
+        </div>
+      </div>
+
+      ${isAdmin ? `
+        <div class="course-actions">
+          <button class="btn btn-d btn-sm"
+            onclick="window.deleteCourse('${c.id}')">
+            Delete
+          </button>
+        </div>
+      ` : ``}
+    </div>
+  `).join('');
+}
+
+/* =========================
+   ADD COURSE
+========================= */
+async function submitCourse(){
+  const title = document.getElementById('cTitle').value.trim();
+  const grade = document.getElementById('cGrade').value.trim();
+  const description = document.getElementById('cDesc').value.trim();
+  const subjects = document.getElementById('cSubjects').value.trim();
+  const syllabus = document.getElementById('cSyllabus').value.trim();
+
+  if(!title || !grade || !description || !subjects || !syllabus){
+    alert("Please fill all fields.");
+    return;
+  }
+
+  await window.addCourse({
+    title,
+    grade,
+    description,
+    subjects,
+    syllabus
+  });
+
+  closeModal('courseModal');
+
+  document.getElementById('cTitle').value='';
+  document.getElementById('cGrade').value='';
+  document.getElementById('cDesc').value='';
+  document.getElementById('cSubjects').value='';
+  document.getElementById('cSyllabus').value='';
+}
+
+/* =========================
+   MODALS
+========================= */
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+}
+
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+}
+
+document.querySelectorAll('.mb').forEach(b=>{
+  b.addEventListener('click',e=>{
+    if(e.target===b) b.classList.remove('open');
+  });
+});
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('active');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('active');
+}
+  </script>
+</body>
+
+</html>

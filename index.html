@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtual Academy — Excellence in Education</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600&family=DM+Mono&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="insty.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="icon" type="image/png" href="logo.jpg">
+  <!-- Firebase -->
+
+  <script type="module">
+    /* ==============================
+       FIREBASE IMPORTS
+    ============================== */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      onSnapshot,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    /* ==============================
+       FIREBASE CONFIG
+    ============================== */
+    const firebaseConfig = {
+
+      apiKey: "AIzaSyAdaVlSRkC5a7AVH_D2HccyxJxxUXwg6So",
+      authDomain: "virtualv2.firebaseapp.com",
+      projectId: "virtualv2",
+      storageBucket: "virtualv2.firebasestorage.app",
+      messagingSenderId: "212875907952",
+      appId: "1:212875907952:web:9f2e7ce61dc9a19bacf5b5",
+      measurementId: "G-KKR4JBLH3Q"
+    };
+
+
+    /* ==============================
+       INITIALIZE FIREBASE
+    ============================== */
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    /* ==============================
+       LOAD NOTICES
+    ============================== */
+    const noticesRef = collection(db, "notices");
+    const noticesQuery = query(noticesRef, orderBy("createdAt", "desc"));
+
+    onSnapshot(noticesQuery, (snapshot) => {
+      const notices = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      renderTicker(notices);
+      renderNotices(notices);
+    });
+
+    /* ==============================
+       LOAD EVENTS
+    ============================== */
+    const eventsRef = collection(db, "events");
+    const eventsQuery = query(eventsRef, orderBy("date", "desc"));
+
+    onSnapshot(eventsQuery, (snapshot) => {
+      const events = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      renderEvents(events);
+    });
+
+    /* ==============================
+       LOAD GALLERY
+    ============================== */
+    const galleryRef = collection(db, "gallery");
+    const galleryQuery = query(galleryRef, orderBy("createdAt", "desc"));
+
+    onSnapshot(galleryQuery, (snapshot) => {
+      const gallery = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      renderGallery(gallery);
+    });
+
+    /* ==============================
+       OPTIONAL: HANDLE EMPTY STATE
+    ============================== */
+    window.addEventListener("DOMContentLoaded", () => {
+      console.log("🔥 Virtual Academy connected to Firestore");
+    });
+
+
+const coursesRef = collection(db, "courses");
+
+function renderCoursesPublic(list) {
+  const container = document.getElementById("coursesGrid");
+
+  if (!container) return;
+
+  if (!list.length) {
+    container.innerHTML = `<p>No courses available.</p>`;
+    return;
+  }
+
+  container.innerHTML = list.map(c => `
+    <div class="course-card-public">
+      <h3>${c.title}</h3>
+      <span class="grade">Grade ${c.grade}</span>
+      <p>${c.description}</p>
+      <div class="meta">
+        <strong>Subjects:</strong>
+        <p>${c.subjects}</p>
+        <strong>Syllabus:</strong>
+        <p>${c.syllabus}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+const q = query(coursesRef, orderBy("createdAt", "desc"));
+
+onSnapshot(q, snap => {
+  const list = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  renderCoursesPublic(list);
+});
+  </script>
+
+
+</head>
+
+<body>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-label">📢 Latest</div>
+    <div class="ticker-wrap">
+      <div class="ticker-track" id="tickerTrack"><span>Loading notices…</span><span>Loading notices…</span></div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-emblem">
+          <img src="logo.jpg" alt="Virtual Academy Logo">
+        </div>
+        <div class="nav-logo-text">
+          <h1>Virtual Academy</h1>
+          <span>Est. 2012 · Excellence in Education</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#events">Events</a></li>
+        <li><a href="#notices">Notices</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <!-- <a href="admin.html" class="btn-nav btn-outline-nav">Admin Portal</a> -->
+        <a href="#contact" class="btn-nav btn-solid-nav">Admissions 2026</a>
+      </div>
+      <button class="hamburger" onclick="document.getElementById('mobNav').classList.toggle('open')">
+        <svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mob-nav" id="mobNav">
+    <button class="mob-nav-close" onclick="document.getElementById('mobNav').classList.remove('open')">✕</button>
+    <a href="#about" onclick="document.getElementById('mobNav').classList.remove('open')">About</a>
+    <a href="#events" onclick="document.getElementById('mobNav').classList.remove('open')">Events</a>
+    <a href="#notices" onclick="document.getElementById('mobNav').classList.remove('open')">Notices</a>
+    <a href="#gallery" onclick="document.getElementById('mobNav').classList.remove('open')">Gallery</a>
+    <a href="#contact" onclick="document.getElementById('mobNav').classList.remove('open')">Contact</a>
+    <a href="admin.html">Admin Portal →</a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-shapes">
+      <div class="shape-c"></div>
+      <div class="shape-c"></div>
+      <div class="shape-c"></div>
+      <div class="hero-line"></div>
+      <div class="hero-line"></div>
+    </div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-eyebrow">Admissions Open for 2026–27</div>
+        <h1 class="hero-headline">Shaping Minds,<br>Building <em>Futures</em>,<br>Since 2012</h1>
+        <p class="hero-sub">Virtual Academy nurtures curious, courageous, and compassionate learners through
+          world-class academics and values education.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-hp">Apply for Admission ↗</a>
+          <a href="#about" class="btn-hg">Explore Our School</a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <div class="hs-num">2,000+</div>
+            <div class="hs-lbl">Students</div>
+          </div>
+          <!-- <div>
+            <div class="hs-num">140+</div>
+            <div class="hs-lbl">Faculty</div>
+          </div> -->
+          <div>
+            <div class="hs-num">98%</div>
+            <div class="hs-lbl">Board Results</div>
+          </div>
+          <div>
+            <div class="hs-num">14+</div>
+            <div class="hs-lbl">Years Legacy</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-card-hdr">
+          <div class="hero-card-ttl">📌 Notice Board</div>
+          <div class="live-dot">Live Updates</div>
+        </div>
+        <div class="notice-scroll" id="heroNotices">
+          <div style="color:rgba(255,255,255,.35);font-size:.83rem;padding:10px">Loading…</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="si about-grid">
+      <div class="about-img-wrap reveal">
+        <div class="about-accent">🏆</div>
+        <img class="about-img-main" src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=700"
+          alt="School campus">
+        <div class="about-badge"><strong>A+</strong><span>CBSE Grade</span></div>
+      </div>
+      <div class="reveal">
+        <div class="sec-lbl">Who We Are</div>
+        <h2 class="sec-h">A Legacy of Excellence in Education</h2>
+        <p class="sec-d">Founded in 2012, Virtual Academy has been at the forefront of holistic education — blending
+          rigorous academics with character development, creativity, and community values.</p>
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-icon">📚</div>
+            <div>
+              <h3>Academic Excellence</h3>
+              <p>Consistently 98%+ board results each year through expert faculty
+                and proven methods.</p>
+            </div>
+          </div>
+          <!-- <div class="pillar">
+            <div class="pillar-icon">⚽</div>
+            <div>
+              <h3>Sports & Extracurriculars</h3>
+              <p>State champions in football, basketball & athletics. 30+ clubs from robotics to classical dance for
+                every interest.</p>
+            </div>
+          </div> -->
+          <div class="pillar">
+            <div class="pillar-icon">🌱</div>
+            <div>
+              <h3>Values & Character</h3>
+              <p>Moral education, leadership camps and community service are integral parts of every student's journey
+                here.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES STRIP -->
+  <div class="feat-strip">
+    <div class="si">
+      <div class="sec-lbl" style="color:var(--gold)">Why Virtual</div>
+      <h2 class="sec-h" style="color:#fff">Everything a Student Needs to Thrive</h2>
+      <div class="features-grid">
+        <div class="fb reveal">
+          <div class="fb-num">01</div>
+          <div class="fb-title">Smart Study</div>
+          <div class="fb-desc">According to our students, the smart study environment helps them learn better and stay
+            engaged.</div>
+        </div>
+        <!-- <div class="fb reveal" style="transition-delay:.1s">
+          <div class="fb-num">02</div>
+          <div class="fb-title">World-Class Sports</div>
+          <div class="fb-desc">Olympic-size pool, synthetic cricket ground, basketball courts and a 400m athletics
+            track.</div>
+        </div> -->
+        <!-- <div class="fb reveal" style="transition-delay:.2s">
+          <div class="fb-num">03</div>
+          <div class="fb-title">Arts & Culture</div>
+          <div class="fb-desc">Purpose-built auditorium, music studios, art ateliers and annual cultural programmes.
+          </div>
+        </div> -->
+        <div class="fb reveal" style="transition-delay:.3s">
+          <div class="fb-num">02</div>
+          <div class="fb-title">Safe Campus</div>
+          <div class="fb-desc">24×7 CCTV, trained counsellors, anti-bullying policy, and a dedicated student wellness
+            centre.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTS -->
+  <section class="section events-bg" id="events">
+    <div class="si">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+        <div>
+          <div class="sec-lbl reveal">Upcoming</div>
+          <h2 class="sec-h reveal">Events &amp; Programmes</h2>
+        </div>
+        <!-- <a href="admin.html" class="btn-nav btn-outline-nav reveal" style="margin-bottom:6px">View All →</a> -->
+      </div>
+      <div class="events-cards" id="eventsCards">
+        <div style="color:var(--gray)">Loading events…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTICES -->
+  <section class="section" id="notices">
+    <div class="si">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+        <div>
+          <div class="sec-lbl reveal">Announcements</div>
+          <h2 class="sec-h reveal">Notice Board</h2>
+          <p class="sec-d reveal">Important announcements, test schedules and updates — always current.</p>
+        </div>
+      </div>
+      <div class="notices-two-col" id="noticesGrid">
+        <div style="color:var(--gray)">Loading notices…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Courses -->
+
+  <!-- COURSES -->
+<section class="section" id="courses">
+  <div class="si">
+    <div>
+      <div class="sec-lbl">Academics</div>
+      <h2 class="sec-h">Courses We Offer</h2>
+      <p class="sec-d">Comprehensive curriculum designed to build strong foundations and future-ready skills.</p>
+    </div>
+
+    <div class="courses-grid" id="coursesGrid">
+      <div style="color:var(--gray)">Loading courses…</div>
+    </div>
+  </div>
+</section>
+
+  <!-- GALLERY -->
+  <section class="section gallery-bg" id="gallery">
+    <div class="si">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+        <div>
+          <div class="sec-lbl" style="color:var(--gold)">Memories</div>
+          <h2 class="sec-h">Life at Virtual Academy</h2>
+          <p class="sec-d">Glimpses of the vibrant, joyful world inside our campus.</p>
+        </div>
+      </div>
+      <div class="gallery-masonry" id="galleryMasonry">
+        <div style="color:rgba(255,255,255,.4)">Loading gallery…</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section testi-bg">
+    <div class="si">
+      <div class="sec-lbl reveal">What They Say</div>
+      <h2 class="sec-h reveal">Voices from Our Community</h2>
+      <div class="testi-grid">
+        <div class="tc reveal">
+          <div class="tc-stars">★★★★★</div>
+          <div class="tc-quote">"</div>
+          <p class="tc-text">This coaching institute has helped me improve my understanding in all subjects. The teachers explain concepts clearly and make learning easy and interesting.</p>
+          <div class="tc-author">
+            <div class="tc-av">SKS</div>
+            <div>
+              <div class="tc-name">Shivesh Kumar Satyam</div>
+              <div class="tc-role">Student, Batch of 2019-2023 </div>
+            </div>
+          </div>
+        </div>
+        <div class="tc reveal" style="transition-delay:.1s">
+          <div class="tc-stars">★★★★★</div>
+          <div class="tc-quote">"</div>
+          <p class="tc-text">The teachers give personal attention to every student. The environment is positive and motivating. I feel more confident in my studies now.</p>
+          <div class="tc-author">
+            <div class="tc-av">SP</div>
+            <div>
+              <div class="tc-name">Suhani Priya</div>
+              <div class="tc-role">Student, Batch of 2019-2023 </div>
+            </div>
+          </div>
+        </div>
+        <div class="tc reveal" style="transition-delay:.2s">
+          <div class="tc-stars">★★★★★</div>
+          <div class="tc-quote">"</div>
+          <p class="tc-text">I joined here for both regular studies and ADCA course. The environment is friendly and
+            supportive. The computer lab sessions are very helpful, and I gained confidence in MS Office and other
+            software.</p>
+          <div class="tc-author">
+            <div class="tc-av">KK</div>
+            <div>
+              <div class="tc-name">Kriti Kumari</div>
+              <div class="tc-role">Student, Class XI-XII & ADCA</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-strip">
+    <div class="si">
+      <h2>Begin Your Virtual Journey</h2>
+      <p>Admissions are open for all Classes. Limited seats available.</p>
+      <a href="#contact" class="cta-btn">Apply for Admission</a>
+      <!-- <a href="admin.html" class="cta-btn-g">School Portal →</a> -->
+    </div>
+  </div>
+
+  <!-- FOOTER / CONTACT -->
+  <footer id="contact">
+    <div class="fi">
+      <div class="ft">
+        <div class="fb-brand">
+          <h2>Virtual Academy</h2>
+          <p>Excellence in education since 2012. We nurture future leaders through quality education and holistic development.</p>
+          <!-- <div style="margin-top:18px;display:flex;gap:11px">
+            <a href="#" style="color:var(--gold);font-size:1.2rem">📘</a>
+            <a href="#" style="color:var(--gold);font-size:1.2rem">📸</a>
+            <a href="#" style="color:var(--gold);font-size:1.2rem">🐦</a>
+            <a href="#" style="color:var(--gold);font-size:1.2rem">▶️</a>
+          </div> -->
+          <div class="social-icons" style="margin-top:18px;display:flex;gap:11px">
+  <a href="#"><i class="fab fa-facebook-f"></i></a>
+  <a href="#"><i class="fab fa-twitter"></i></a>
+  <a href="#"><i class="fab fa-instagram"></i></a>
+  <a href="#"><i class="fab fa-youtube"></i></a>
+  <a href="#"><i class="fab fa-linkedin-in"></i></a>
+</div>
+        </div>
+        <div class="fc">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#notices">Notice Board</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+           
+          </ul>
+        </div>
+        <!-- <div class="fc">
+          <h3>Academics</h3>
+          <ul>
+            <li><a href="#">Primary School</a></li>
+            <li><a href="#">Middle School</a></li>
+            <li><a href="#">Senior Secondary</a></li>
+            <li><a href="#">Curriculum</a></li>
+            <li><a href="#">Results</a></li>
+          </ul>
+        </div> -->
+        <div class="fc">
+          <h3>Contact Us</h3>
+          <ul>
+            
+
+            <li>📍 Rambagh Purnea Bihar 854301</li>
+            <li>📞 +91 7545864977</li>
+            <li>✉️ info@Virtualacademygroup.com</li>
+            <li>🕐 Mon-Sat: 8AM-6PM</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="fd">
+      <div class="fb-bottom">
+        <div>© 2026 Virtual Academy. All rights reserved.</div>
+        <div style="display:flex;gap:120px">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Use</a>
+          <a href="admin.html" style="color:var(--gold)">Admin Login →</a>
+        </div>
+      </div>
+    </div>
+    <div class="fb-bottom"></div>
+    <div class="dev-credit">
+  Made with ❤️ in India by 
+  <a href="https://shiveshsatyam.tech" target="_blank">
+    S Satyam
+  </a>
+</div>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lb-close">✕ Close</button>
+    <img id="lbImg" src="" alt="">
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+
+  <script>
+    function renderTicker(notices) {
+      const t = document.getElementById('tickerTrack');
+      if (!notices.length) return;
+      const items = [...notices, ...notices].map(n => `<span>${n.title}</span>`).join('');
+      t.innerHTML = items;
+    }
+
+    function renderNotices(list) {
+      // Hero card
+      document.getElementById('heroNotices').innerHTML = list.slice(0, 5).map(n => `
+    <div class="nm ${n.category || 'general'}">
+      <div class="nm-cat ${n.category || 'general'}">${n.category || 'general'}</div>
+      <div class="nm-title">${n.title}</div>
+      <div class="nm-date">${n.date}</div>
+    </div>`).join('');
+      // Notice grid
+      const icons = { exam: '📝', meeting: '🤝', finance: '💰', event: '🎉', general: '📌' };
+      const grid = document.getElementById('noticesGrid');
+      if (!list.length) { grid.innerHTML = '<div style="color:var(--gray)">No notices yet.</div>'; return; }
+      grid.innerHTML = list.slice(0, 8).map(n => `
+    <div class="np ${n.category || 'general'} reveal">
+      <div class="np-icon ${n.category || 'general'}">${icons[n.category] || '📌'}</div>
+      <div>
+        <div class="np-cat ${n.category || 'general'}">${n.category || 'general'}</div>
+        <div class="np-title">${n.title}</div>
+        <div class="np-body">${n.body}</div>
+        <div class="np-date">📅 ${n.date}</div>
+      </div>
+    </div>`).join('');
+      observe();
+    }
+
+    function renderEvents(list) {
+      const c = document.getElementById('eventsCards');
+      if (!list.length) { c.innerHTML = '<div style="color:var(--gray)">No events scheduled.</div>'; return; }
+      c.innerHTML = list.slice(0, 4).map(ev => {
+        const d = ev.date ? new Date(ev.date + 'T00:00:00') : new Date();
+        const f = d.toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+        return `<div class="ev-card reveal">
+      <div class="ev-top">
+        <div class="ev-date-str">${f}</div>
+        <div class="ev-title">${ev.title}</div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-meta">
+          ${ev.time ? `<span>🕐 ${ev.time}</span>` : ''}
+          ${ev.venue ? `<span>📍 ${ev.venue}</span>` : ''}
+        </div>
+        ${ev.description ? `<div class="ev-desc">${ev.description}</div>` : ''}
+      </div>
+    </div>`;
+      }).join('');
+      observe();
+    }
+
+    /* ==============================
+   LOAD COURSES
+============================== */
+
+
+    function renderGallery(list) {
+      const m = document.getElementById('galleryMasonry');
+      if (!list.length) { m.innerHTML = '<div style="color:rgba(255,255,255,.4)">No photos yet.</div>'; return; }
+      m.innerHTML = list.map(g => `
+    <div class="gp" onclick="openLightbox('${g.url}','${g.title}')">
+      <img src="${g.url}" alt="${g.title}" loading="lazy">
+      <div class="gp-ov"><div class="gp-t">${g.title}</div><div class="gp-c">${g.category}</div></div>
+    </div>`).join('');
+    }
+
+    function openLightbox(url, cap) {
+      document.getElementById('lbImg').src = url;
+      document.getElementById('lbCap').textContent = cap || '';
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+    function observe() {
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
+    }
+    observe();
+
+    // Nav active state
+    const sections = document.querySelectorAll('section[id],footer[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let cur = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 90) cur = s.id; });
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+    }, { passive: true });
+  </script>
+</body>
+
+</html>
